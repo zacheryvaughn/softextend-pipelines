@@ -11,3 +11,5 @@ ignore/
 *.safetensors
 
 output*.png
+
+*.png

@@ -1211,6 +1211,7 @@ class StableDiffusionXLSoftExtendPipeline(
         # --------------------------------------------
         # IMAGE PREPARATION UTILITIES
         # --------------------------------------------
+        
         def generate_displacement_map(shape, scale=100, octaves=4, seed=None, strength=10):
             height, width = shape
             if seed is None:
@@ -1311,13 +1312,13 @@ class StableDiffusionXLSoftExtendPipeline(
                 mask[:, -(right + mask_overlap):] = 1.0
 
             fade_kernel = mask_blur if mask_blur % 2 == 1 else mask_blur + 1
-            mask_blurred = cv2.GaussianBlur(mask, (fade_kernel, fade_kernel), mask_blur)
+            mask = cv2.GaussianBlur(mask, (fade_kernel, fade_kernel), mask_blur)
 
             dx, dy = generate_displacement_map(mask.shape, scale, octaves, seed, strength)
             warped = apply_displacement(extended, dx, dy)
 
-            mask_3ch = np.stack([mask_blurred] * 3, axis=2)
-            final = (warped * mask_3ch + extended * (1 - mask_3ch)).astype(np.uint8)
+            mask_3ch = np.stack([mask] * 3, axis=2)
+            image = (warped * mask_3ch + extended * (1 - mask_3ch)).astype(np.uint8)
 
             pattern_img = generate_pattern_noise((full_w, full_h), seed=seed)
             pattern_np = np.array(pattern_img)
@@ -1338,7 +1339,11 @@ class StableDiffusionXLSoftExtendPipeline(
             overlay_mask_3ch = np.stack([overlay_mask] * 3, axis=2)
 
             alpha = overlay_mask_3ch * overlay_opacity
-            final = (final * (1 - alpha) + pattern_np * alpha).astype(np.uint8)
+            image = (image * (1 - alpha) + pattern_np * alpha).astype(np.uint8)
+
+            # Convert back to PIL for consistent return types
+            image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+            mask = Image.fromarray((mask * 255).astype(np.uint8))
 
             image.save("preparred_image.png")
             mask.save("preparred_mask.png")

@@ -15,8 +15,7 @@ pipeline = StableDiffusionXLSoftExtendPipeline.from_single_file(
 ).to(device)
 
 # PIL OPEN IMAGES
-image = Image.open("outpaint_images/stirred_output.png")
-mask = Image.open("outpaint_images/MASK_1.png")
+image = Image.open("image.png")
 
 # INPUT PROMPTS
 prompt = "flat straight ocean horizon and beach shoreline during sunset"
