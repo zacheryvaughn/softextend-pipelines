@@ -16,7 +16,7 @@ pipeline = StableDiffusionXLSoftExtendPipeline.from_single_file(
 
 # PIL OPEN IMAGES
 image = Image.open("image.png")
-mask = Image.open("mask.png")
+# mask = Image.open("mask.png")
 
 # INPUT PROMPTS
 prompt = "photo portrait of beautiful tropical jungle with sunlight filtering through foliage in the background"
@@ -31,7 +31,7 @@ output = pipeline(
     # If you do not provide the "extend_sides" parameter or it equals 0 on all sides, then
     # it will expect you to provide a mask and an extended+painted image.
     # Using an image with manually painted extension areas and a custom mask can produce better results but is less convenient.
-    mask=mask,
+    mask=None,
     extend_sides=[0, 0, 0, 0], # [Top, Right, Bottom, Left] (must be 8px divisible, the pipeline will round down if not)
 
     num_inference_steps=50,
