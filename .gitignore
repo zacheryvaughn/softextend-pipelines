@@ -6,10 +6,4 @@ __pycache__/
 
 requirements.txt
 
-ignore/
-
 *.safetensors
-
-output*.png
-
-*.png

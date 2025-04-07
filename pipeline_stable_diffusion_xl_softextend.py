@@ -946,6 +946,7 @@ class StableDiffusionXLSoftExtendPipeline(
         prompt: Union[str, List[str]] = None,
         prompt_2: Optional[Union[str, List[str]]] = None,
         image: PIL.Image.Image = None,
+        mask: PIL.Image.Image = None,
         extend_sides: Optional[List[int]] = None, # Top, Right, Bottom, Left (8px divisible)
         strength: float = 0.3,
         num_inference_steps: int = 50,
@@ -1363,13 +1364,18 @@ class StableDiffusionXLSoftExtendPipeline(
             map = transforms.ToTensor()(map)
             map = (map - 0.05) / (0.95 - 0.05)
             map = torch.clamp(map, 0.0, 1.0)
-            return 1.0 - map
+            return 1.0 - map # Invert map
 
         # --------------------------------------------
         # APPLY PREPROCESSING
         # --------------------------------------------
+        if mask is None and (extend_sides is None or not any(side > 0 for side in extend_sides)):
+            raise ValueError("You must provide either a valid 'extend_sides=[top, right, bottom, left]' parameter, or a valid mask and pre-extended+painted image.")
 
-        image, mask = stir_outpaint_colors(image, extend_sides)
+        # Check if extend_sides is provided and has at least one nonzero value
+        if extend_sides is not None and any(side > 0 for side in extend_sides):
+            # Process the image with outpainting: add extensions, stirring, etc.
+            image, mask = stir_outpaint_colors(image, extend_sides)
 
         # Prepare original image with optional noise fill
         original_image_tensor = preprocess_image(image).to(device)

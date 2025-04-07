@@ -16,10 +16,11 @@ pipeline = StableDiffusionXLSoftExtendPipeline.from_single_file(
 
 # PIL OPEN IMAGES
 image = Image.open("image.png")
+mask = Image.open("mask.png")
 
 # INPUT PROMPTS
-prompt = "hires photo of beautiful mountain scenery with wildflowers in the valley"
-negative_prompt = "lowres, bad quality, frame, border"
+prompt = "photo portrait of beautiful tropical jungle with sunlight filtering through foliage in the background"
+negative_prompt = "lowres, bad quality, worst quality, old, fat, ugly, average, (closeup leaves)++, (large plants)++, blurry, bokeh"
 
 # RUN PIPELINE
 output = pipeline(
@@ -30,10 +31,11 @@ output = pipeline(
     # If you do not provide the "extend_sides" parameter or it equals 0 on all sides, then
     # it will expect you to provide a mask and an extended+painted image.
     # Using an image with manually painted extension areas and a custom mask can produce better results but is less convenient.
-    extend_sides=[0, 256, 0, 256], # [Top, Right, Bottom, Left] (must be 8px divisible, the pipeline will round down if not)
+    mask=mask,
+    extend_sides=[0, 0, 0, 0], # [Top, Right, Bottom, Left] (must be 8px divisible, the pipeline will round down if not)
 
     num_inference_steps=50,
-    guidance_scale=6,
+    guidance_scale=3,
     strength=0.85,
 ).images[0]
 
