@@ -1,4 +1,4 @@
-# SoftFill Pipeline
+# SoftExtend Pipeline
 #### WORK IN PROGRESS, NOT WORKING PROPERLY YET
 SoftExtend is a Diffusers pipeline based on Differential Diffusion, incorporating input and preprocessing modifications that enable it to function more like "soft outpainting"—without requiring additional inference steps. A small addition of nondeterministic, stirring the extension blur combined with fluid-like noise fill proves surprisingly effective at guiding the img2img process to produce outpainting results that are less deterministic and are better-blended with the original image. I tested a variety of noise patterns, opacities, edge fades, and other parameters, and found this configuration to yield the best results so far. If I discover an approach that performs better, I’ll update the pipeline’s preprocessing accordingly.
 
@@ -70,6 +70,6 @@ python test_softfill.py
 **strength=** 0.8, <br>
 **noise_fill_image=** True,
 
-| Image | Mask | Noised | Result |
+<!-- | Image | Mask | Noised | Result |
 |----------------|------|-------------------|---------------|
-| ![original.png](image.png) | ![mask.png](mask.png) | ![noised_image.png](noised_image.png) | ![result.png](result.png) |
+| ![original.png](image.png) | ![mask.png](mask.png) | ![noised_image.png](noised_image.png) | ![result.png](result.png) | -->
