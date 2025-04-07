@@ -20,7 +20,7 @@ image = Image.open("image.png")
 
 # INPUT PROMPTS
 prompt = "photo portrait of beautiful tropical jungle with sunlight filtering through foliage in the background"
-negative_prompt = "lowres, bad quality, worst quality, old, fat, ugly, average, (closeup leaves)++, (large plants)++, blurry, bokeh"
+negative_prompt = "lowres, bad quality, worst quality, (closeup leaves)++, (large plants)++, blurry, bokeh"
 
 # RUN PIPELINE
 output = pipeline(

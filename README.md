@@ -66,7 +66,7 @@ python test_softextend.py
 ## Example Image Process
 **Model Used:** https://civitai.com/models/277058?modelVersionId=1522905 <br>
 **prompt=** photo portrait of beautiful tropical jungle with sunlight filtering through foliage in the background <br>
-**negative_prompt=** lowres, bad quality, worst quality, old, fat, ugly, average, (closeup leaves)++, (large plants)++, blurry, bokeh <br>
+**negative_prompt=** lowres, bad quality, worst quality, (closeup leaves)++, (large plants)++, blurry, bokeh <br>
 **num_inference_steps=** 50 <br>
 **guidance_scale=** 3, <br>
 **strength=** 0.85, <br>
